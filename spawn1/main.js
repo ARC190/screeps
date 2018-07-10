@@ -1,4 +1,4 @@
-var Roles = [require('role.harvester'), require('role.upgrader')];
+var Roles = [require('role.harvester'), require('role.upgrader'), require('role.builder')];
 var ScreepCounter = [[0,0,0],
                     [],
                     ['Harvesters','Upgraders','Builders'],
@@ -60,6 +60,6 @@ module.exports.loop = function () {
         }
     }
     }
-    if(Game.time % 1 == 0 && OutputLog!='')
+    if(Game.time % 5 == 0 && OutputLog!='')
     console.log(OutputLog);
 }

@@ -1,4 +1,4 @@
-var Roles = [require('role.harvester'), require('role.upgrader')];
+var Roles = [require('role.harvester'), require('role.upgrader'), require('role.builder')];
 var ScreepCounter = [[0,0,0],
                     [],
                     ['Harvesters','Upgraders','Builders'],
@@ -9,7 +9,7 @@ module.exports.loop = function () {
     var OutputLog='';
     
     if(Game.time%10==0){
-        OutputLog += ('Enegry availabale in room "sim" ' + Game.rooms['sim'].energyAvailable + '\n');
+        OutputLog += ('Enegry availabale in room "E55N23" ' + Game.rooms['E55N23'].energyAvailable + '\n');
     }
     var i;
     
@@ -28,16 +28,16 @@ module.exports.loop = function () {
         }
     }
     
-    if(Game.rooms['sim'].energyCapacityAvailable<350){
+    if(Game.rooms['E55N23'].energyCapacityAvailable<350){
         SpawnSubs[0].run(ScreepCounter);
     }else{
-        if(Game.rooms['sim'].energyCapacityAvailable<400){
+        if(Game.rooms['E55N23'].energyCapacityAvailable<400){
             SpawnSubs[1].run(ScreepCounter);
         }else{
-            if(Game.rooms['sim'].energyCapacityAvailable<450){
+            if(Game.rooms['E55N23'].energyCapacityAvailable<450){
                 SpawnSubs[2].run(ScreepCounter);
             }else{
-                if(Game.rooms['sim'].energyCapacityAvailable<500){
+                if(Game.rooms['E55N23'].energyCapacityAvailable<500){
                     SpawnSubs[3].run(ScreepCounter);
                 }
             }
@@ -60,6 +60,6 @@ module.exports.loop = function () {
         }
     }
     }
-    if(Game.time % 1 == 0 && OutputLog!='')
+    if(Game.time % 5 == 0 && OutputLog!='')
     console.log(OutputLog);
 }

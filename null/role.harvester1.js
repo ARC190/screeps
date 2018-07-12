@@ -30,7 +30,7 @@ var roleHarvester = {
                 }
             }
             else{
-                var roleprogression=require ('role.builder');
+                var roleprogression=require ('role.builder1');
                 module.exports = roleprogression.run(creep,source,ThisRoom);
             }
     }

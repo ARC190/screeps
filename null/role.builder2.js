@@ -1,6 +1,5 @@
-var roleBuilder = {
-
-    run: function(creep,source,ThisRoom) {
+var export ={
+    run: function(creep){
         var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
         if(targets.length!=0){
 	    if(creep.memory.building && creep.carry.energy == 0) {
@@ -20,7 +19,9 @@ var roleBuilder = {
             }
 	    }
 	    else {
-	        var sources = creep.room.find(FIND_SOURCES);
+	        var sources = creep.room.find(FIND_STRUCTURES, filter:(structure)=>{
+	            return (structure.structureType==STRUCTURE_CONTAINER||structure.structureType==STRUCTURE_STORAGE)&&structure.energy>creep.energyCapacity;
+	        } });
             if(creep.harvest(sources[source]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[source], {visualizePathStyle: {stroke: '#ffaa00'}});
             }
@@ -29,7 +30,7 @@ var roleBuilder = {
             var roleprogression=require ('role.upgrader');
             module.exports = roleprogression.run(creep,source,ThisRoom);
         }
-	}
-};
+    }
+}
 
-module.exports = roleBuilder;
+module.exports = export;

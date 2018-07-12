@@ -1,5 +1,6 @@
 var roleBuilder = {
 
+    /** @param {Creep} creep **/
     run: function(creep,source,ThisRoom) {
         var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
         if(targets.length!=0){

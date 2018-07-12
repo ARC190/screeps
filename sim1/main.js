@@ -1,17 +1,13 @@
-var Roles = [require('role.harvester'), require('role.upgrader'), require('role.builder'),
-             require('role.fatharvester'),require('role.fatupgrader'),require('role.fatbuilder')];
-var ScreepCounter = [[0,0,0,0,0,0],
+var Roles = [require('role.harvester'), require('role.upgrader'), require('role.builder'),require('role.fatharvester')];
+var ScreepCounter = [[0,0,0,0],
                     [],
-                    ['Harvesters','Upgraders','Builders','Fat Harvesters','Fat Upgraders','Fat Builders'],
-                    ['harvester','upgrader','builder','fatharvester','fatupgrader','fatbuilder']];
+                    ['Harvesters','Upgraders','Builders','Fat Harvesters'],
+                    ['harvester','upgrader','builder','fatharvester']];
 var SpawnSubs = [require('spawn.sub1'),require('spawn.sub2'),require('spawn.sub3'),require('spawn.sub4')];
 var ThisRoom='sim';
 
 module.exports.loop = function () {
     var OutputLog='';
-    for(var room in Game.room('sim').){
-        console.log(Game.rooms(room));
-    }
     
     if(Game.time%10==0){
         OutputLog += ('Enegry availabale in room "' + ThisRoom + '" ' + Game.rooms[ThisRoom].energyAvailable + '\n');
@@ -63,9 +59,10 @@ module.exports.loop = function () {
     
     for(var name in Game.creeps) {
        var creep = Game.creeps[name];
+       var source=Game.creeps[name].memory.AssignedSource
         for(i=0;i<Roles.length;i++){
             if(creep.memory.role == ScreepCounter[3][i]) {
-                Roles[i].run(creep,ThisRoom);
+                Roles[i].run(creep,source,ThisRoom);
         }
     }
     }

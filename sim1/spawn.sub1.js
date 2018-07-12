@@ -13,18 +13,18 @@ var SpawnSub = {
     
     if(ScreepCounter[1][2].length < 1 && ScreepCounter[1][0].length >= 2 && ScreepCounter[1][1].length >= 1) {
         
-        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,CARRY,MOVE], newName, 
-            {memory: {role: 'builder1'}});        
+        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE], newName, 
+            {memory: {role: 'builder',AssignedSource: 0}});        
     }
     
-    if(ScreepCounter[1][1].length < 2 && ScreepCounter[1][0].length >= 1) {
-        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE], newName, 
-            {memory: {role: 'upgrader1'}});        
+    if(ScreepCounter[1][1].length < 1 && ScreepCounter[1][0].length >= 1) {
+        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE], newName, 
+            {memory: {role: 'upgrader',AssignedSource: 0}});        
     }
         
      if(ScreepCounter[1][0].length < 4) {
-        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE], newName, 
-            {memory: {role: 'harvester1'}});        
+        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE], newName, 
+            {memory: {role: 'harvester',AssignedSource: 0}});        
     }
 }
 }

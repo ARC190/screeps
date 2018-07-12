@@ -1,24 +1,38 @@
-var Roles = [require('role.harvester'), require('role.upgrader'), require('role.builder')];
-var ScreepCounter = [[0,0,0],
-                    [],
-                    ['Harvesters','Upgraders','Builders'],
-                    ['harvester','upgrader','builder']];
+var Roles = [require('role.harvester'), require('role.upgrader'), require('role.builder'),require('role.fatharvester')];
+//var ScreepCounter = [[0,0,0,0],
+//                    [],
+//                    ['harvester','upgrader','builder','fatharvester']];
 var SpawnSubs = [require('spawn.sub1'),require('spawn.sub2'),require('spawn.sub3'),require('spawn.sub4')];
+var TowerSubs=[require('role.tower1')];
 
 module.exports.loop = function () {
+    
+    for(var ThisRoom in Memory.rooms){
+    
+    var towers = Game.rooms[ThisRoom].find(FIND_STRUCTURES, {
+        filter: (structure) => {
+            return structure.structureType == STRUCTURE_TOWER;
+        }
+    });
+    // console.log(towers);
+    if(towers.length>0){
+    for(var i=0;i<towers.length;i++){
+        TowerSubs[0].run(towers[0]);}
+    }
     var OutputLog='';
     
-    if(Game.time%10==0){
-        OutputLog += ('Enegry availabale in room "E55N23" ' + Game.rooms['E55N23'].energyAvailable + '\n');
-    }
-    var i;
+    var ScreepCounter=Memory.rooms[ThisRoom].ScreepCounter;
     
-    for(i=0; i<Roles.length; i++){
-        ScreepCounter[1][i] = _.filter(Game.creeps, (creep) => creep.memory.role == ScreepCounter[3][i]);
+    if(Game.time%10==0){
+        OutputLog += ('Enegry availabale in room "' + ThisRoom + '" ' + Game.rooms[ThisRoom].energyAvailable + '\n');
+    
+    
+    for(var i=0; i<Roles.length; i++){
+        ScreepCounter[1][i] = _.filter(Game.creeps, (creep) => creep.memory.role == Memory.roles[i]);
         if(ScreepCounter[1][i].length != ScreepCounter[0][i]){ 
-            OutputLog += (ScreepCounter[2][i] +  ': ' + ScreepCounter[1][i].length + '\n');
             ScreepCounter[0][i] = ScreepCounter[1][i].length;
         }
+    }
     }
     
     for(var name in Memory.creeps) {
@@ -27,18 +41,24 @@ module.exports.loop = function () {
             console.log('Clearing non-existing creep memory:', name);
         }
     }
-    
-    if(Game.rooms['E55N23'].energyCapacityAvailable<350){
+    var w=WORK;
+    var c=CARRY;
+    var m=MOVE;
+    if(Game.rooms[ThisRoom].energyCapacityAvailable==300){
         SpawnSubs[0].run(ScreepCounter);
     }else{
-        if(Game.rooms['E55N23'].energyCapacityAvailable<400){
+        if(Game.rooms[ThisRoom].energyCapacityAvailable==350){
             SpawnSubs[1].run(ScreepCounter);
         }else{
-            if(Game.rooms['E55N23'].energyCapacityAvailable<450){
+            if(Game.rooms[ThisRoom].energyCapacityAvailable==400){
                 SpawnSubs[2].run(ScreepCounter);
             }else{
-                if(Game.rooms['E55N23'].energyCapacityAvailable<500){
+                if(Game.rooms[ThisRoom].energyCapacityAvailable==450){
                     SpawnSubs[3].run(ScreepCounter);
+                }else{
+                    if(Game.rooms[ThisRoom].energyCapacityAvailable>=500){
+                        SpawnSubs[3].run(ScreepCounter);
+                    }
                 }
             }
         }
@@ -52,14 +72,16 @@ module.exports.loop = function () {
         {align: 'left', opacity: 0.8});
     } 
     
-    for(var name in Game.creeps) {
+   for(var name in Game.creeps) {
        var creep = Game.creeps[name];
+       var source=Game.creeps[name].memory.AssignedSource
         for(i=0;i<Roles.length;i++){
-            if(creep.memory.role == ScreepCounter[3][i]) {
-                Roles[i].run(creep);
+            if(creep.memory.role == Memory.roles[i]) {
+                Roles[i].run(creep,source,ThisRoom);
         }
     }
     }
     if(Game.time % 5 == 0 && OutputLog!='')
     console.log(OutputLog);
+    }
 }

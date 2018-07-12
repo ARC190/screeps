@@ -1,7 +1,7 @@
-var export ={
-    run: function(){
+var role ={
+    run: function(creep,source,ThisRoom){
         
     }
 }
 
-module.exports = export;
+module.exports = role;

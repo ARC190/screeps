@@ -1,4 +1,4 @@
-var export ={
+var role ={
     run: function(creep){
         var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
         if(targets.length!=0){
@@ -17,18 +17,20 @@ var export ={
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#00ff00'}});
                 }
             }
-	    }
-	    else {
-	        var sources = creep.room.find(FIND_STRUCTURES, filter);
-            if(creep.harvest(sources[source]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[source], {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
-	    }
-        }else{
-            var roleprogression=require ('role.upgrader');
+	    }else{
+	        var batteries = creep.room.find(FIND_STRUCTURES, {filter:(structure)=>{
+	            return (structure.structureType==STRUCTURE_CONTAINER||
+	                    structure.structureType==STRUCTURE_STORAGE)&&structure.energy>creep.energyCapacity;
+	        } });
+	        var battery=creep.pos.findClosestByPath(batteries);
+            if(creep.withdraw(battery,RESOURCE_ENERGY,creep.carryCapacity) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(battery, {visualizePathStyle: {stroke: '#ffaa00'}});
+            }}
+	    }else{
+            var roleprogression=require ('role.upgrader2');
             module.exports = roleprogression.run(creep,source,ThisRoom);
         }
     }
 }
 
-module.exports = export;
+module.exports = role;

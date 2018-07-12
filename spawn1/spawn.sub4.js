@@ -12,7 +12,7 @@ var SpawnSub = {
     var newName='creep'+Game.time;
     
     if(ScreepCounter[1][1].length < 3 && ScreepCounter[1][0].length >= 1) {
-        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], newName, 
+        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
             {memory: {role: 'upgrader1',AssignedSource: 0}});        
     }
         

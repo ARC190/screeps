@@ -1,4 +1,4 @@
-var roleBuilder = {
+var role = {
 
     run: function(creep,source,ThisRoom) {
         var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
@@ -32,4 +32,4 @@ var roleBuilder = {
 	}
 };
 
-module.exports = roleBuilder;
+module.exports = role;

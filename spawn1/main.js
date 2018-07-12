@@ -1,8 +1,10 @@
-var Roles = [require('role.harvester1'), require('role.upgrader1'), require('role.builder1'),require('role.harvester2')];
+var Roles = [require('role.harvester1'), require('role.upgrader1'), require('role.builder1'),
+                require('role.harvester2'),require('role.upgrader2'), require('role.builder2'),
+                require('role.transporter1'), require('role.transporter2')];
 //var ScreepCounter = [[0,0,0,0],
 //                    [],
 //                    ['harvester','upgrader','builder','fatharvester']];
-var SpawnSubs = [require('spawn.sub1'),require('spawn.sub2'),require('spawn.sub3'),require('spawn.sub4')];
+var SpawnSubs = [require('spawn.sub1'),require('spawn.sub2'),require('spawn.sub3'),require('spawn.sub4'),require('spawn.sub5')];
 var TowerSubs=[require('role.tower1')];
 
 module.exports.loop = function () {
@@ -14,7 +16,7 @@ module.exports.loop = function () {
             return structure.structureType == STRUCTURE_TOWER;
         }
     });
-    // console.log(towers);
+    
     if(towers.length>0){
     for(var i=0;i<towers.length;i++){
         TowerSubs[0].run(towers[0]);}
@@ -41,28 +43,24 @@ module.exports.loop = function () {
             console.log('Clearing non-existing creep memory:', name);
         }
     }
-    var w=WORK;
-    var c=CARRY;
-    var m=MOVE;
-    if(Game.rooms[ThisRoom].energyCapacityAvailable==300){
+    
+    var maxBodyParts=(Game.rooms[ThisRoom].energyCapacityAvailable/50-2);
+    
+    if(maxBodyParts==4)
         SpawnSubs[0].run(ScreepCounter);
-    }else{
-        if(Game.rooms[ThisRoom].energyCapacityAvailable==350){
-            SpawnSubs[1].run(ScreepCounter);
-        }else{
-            if(Game.rooms[ThisRoom].energyCapacityAvailable==400){
-                SpawnSubs[2].run(ScreepCounter);
-            }else{
-                if(Game.rooms[ThisRoom].energyCapacityAvailable==450){
-                    SpawnSubs[3].run(ScreepCounter);
-                }else{
-                    if(Game.rooms[ThisRoom].energyCapacityAvailable>=500){
-                        SpawnSubs[3].run(ScreepCounter);
-                    }
-                }
-            }
-        }
-    }
+    
+    if(maxBodyParts==5)
+        SpawnSubs[1].run(ScreepCounter);
+    
+    if(maxBodyParts==6)
+        SpawnSubs[2].run(ScreepCounter);
+    
+    if(maxBodyParts>=7/*&&maxBodyParts<10*/)
+        SpawnSubs[3].run(ScreepCounter);
+    
+    // if(maxBodyParts>10)
+    //     SpawnSubs[4].run(ScreepCounter,'Spawn1',ThisRoom);
+    
     
     if(Game.spawns['Spawn1'].spawning) { 
        var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];

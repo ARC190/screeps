@@ -1,7 +1,7 @@
 var SpawnBase ={
-    run: function(spawn,current,target,Role,body,newname,source){
+    run: function(spawn,current,target,Role,body,newname){
         if(current<target){
-            Game.spawns[spawn].spawnCreep[body,newname,{memory:{role: Role,AssignedSource: source}}]
+            Game.spawns[spawn].spawnCreep[body,newname,{memory:{role: Role}}]
         }
     }
 }

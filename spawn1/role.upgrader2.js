@@ -17,11 +17,11 @@ var role ={
         else {
              var batteries = creep.room.find(FIND_STRUCTURES, {filter:(structure)=>{
 	            return (structure.structureType==STRUCTURE_CONTAINER||
-	                    structure.structureType==STRUCTURE_STORAGE) &&structure.energy>creep.energyCapacity;
+	                    structure.structureType==STRUCTURE_STORAGE)/* &&structure.energy>creep.energyCapacity*/;
 	        } });
 	        var battery=creep.pos.findClosestByPath(batteries);
-            if(creep.withdraw(battery,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(battery, {visualizePathStyle: {stroke: '#ffaa00'}});
+            if(creep.withdraw(batteries[0],RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(batteries[0], {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
         }
